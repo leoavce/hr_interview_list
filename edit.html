@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <link crossorigin href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Work+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <title>Interview Prep - Edit</title>
+  <link rel="icon" href="data:image/x-icon;base64," type="image/x-icon"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body class="bg-slate-50" style='font-family: "Work Sans", "Noto Sans", sans-serif;'>
+  <div class="relative flex min-h-screen flex-col">
+    <header class="flex items-center justify-between border-b border-slate-200 px-6 sm:px-10 py-3">
+      <div class="flex items-center gap-3 text-slate-900">
+        <div class="size-8 text-[#137fec]">
+          <svg fill="currentColor" viewBox="0 0 48 48"><path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"/></svg>
+        </div>
+        <h2 class="text-lg sm:text-xl font-bold tracking-tight">Interview Prep — 편집</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="./index.html" class="inline-flex items-center gap-1 rounded-md bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-200">
+          <span class="material-symbols-outlined text-base">arrow_back</span> 목록으로
+        </a>
+        <button id="save-db" class="inline-flex items-center gap-1 rounded-md bg-[#137fec] px-3 py-2 text-sm font-semibold text-white hover:bg-blue-600">
+          <span class="material-symbols-outlined text-base">save</span> 저장
+        </button>
+      </div>
+    </header>
+
+    <main class="flex-1 px-6 sm:px-10 py-6 sm:py-8">
+      <div class="mx-auto max-w-7xl space-y-8">
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white rounded-md border border-slate-200 p-5">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">질문 관리</h3>
+
+              <div class="grid sm:grid-cols-4 gap-3">
+                <div class="sm:col-span-2">
+                  <label class="block text-sm text-slate-600 mb-1">직무</label>
+                  <select id="job-select" class="form-select w-full rounded-md border-slate-300"></select>
+                </div>
+                <div>
+                  <label class="block text-sm text-slate-600 mb-1">카테고리</label>
+                  <select id="cat-select" class="form-select w-full rounded-md border-slate-300">
+                    <option value="a">a (Technical)</option>
+                    <option value="b">b (Behavioral)</option>
+                    <option value="c">c (Situational)</option>
+                    <option value="d">d (Brain Teasers)</option>
+                  </select>
+                </div>
+                <div class="flex items-end">
+                  <button id="refresh-list" class="inline-flex w-full sm:w-auto items-center justify-center rounded-md bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-200">
+                    <span class="material-symbols-outlined text-base">refresh</span> 새로고침
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <label class="block text-sm text-slate-600 mb-1">질문 내용</label>
+                <textarea id="question-input" rows="3" class="form-textarea w-full rounded-md border-slate-300" placeholder="질문을 입력하세요."></textarea>
+              </div>
+
+              <div class="mt-3 flex flex-wrap gap-2">
+                <button id="add-question" class="inline-flex items-center gap-1 rounded-md bg-[#137fec] px-3 py-2 text-sm font-semibold text-white hover:bg-blue-600">
+                  <span class="material-symbols-outlined text-base">add</span> 추가
+                </button>
+                <button id="update-question" class="inline-flex items-center gap-1 rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-white hover:bg-amber-600" disabled>
+                  <span class="material-symbols-outlined text-base">edit</span> 수정
+                </button>
+                <button id="cancel-edit" class="inline-flex items-center gap-1 rounded-md bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-200" disabled>
+                  <span class="material-symbols-outlined text-base">close</span> 취소
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-md border border-slate-200 p-5">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">질문 목록</h3>
+              <div id="questions-table" class="overflow-hidden rounded-md border border-slate-200"></div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-1">
+            <div class="bg-white p-6 rounded-md border border-slate-200">
+              <h3 class="text-slate-900 text-lg font-bold mb-4">엑셀 업로드</h3>
+
+              <div class="flex flex-col items-center gap-4 rounded-md border-2 border-dashed border-slate-300 px-6 py-8 text-center">
+                <div class="text-slate-400">
+                  <svg class="h-12 w-12" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+                    <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </div>
+                <p class="text-slate-900 text-base font-medium">Drag & drop 또는 <label for="excel-file" class="text-[#137fec] cursor-pointer">파일 선택</label></p>
+                <p class="text-slate-500 text-sm">컬럼: <code>job, category(a|b|c|d), question, active(1|0)</code></p>
+                <input id="excel-file" type="file" accept=".xlsx,.xls" class="hidden" />
+                <button id="import-excel" class="inline-flex items-center justify-center rounded-md h-9 px-4 mt-2 bg-slate-100 text-slate-900 text-sm font-bold hover:bg-slate-200">
+                  가져오기
+                </button>
+              </div>
+
+              <div class="mt-4">
+                <label class="inline-flex items-center gap-2 text-sm text-slate-600">
+                  <input id="update-duplicates" type="checkbox" class="rounded border-slate-300" />
+                  중복(동일 job+category+question) 발견 시 업데이트
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-md border border-slate-200 mt-6">
+              <h3 class="text-slate-900 text-lg font-bold mb-3">직무 관리</h3>
+              <div class="flex gap-2">
+                <input id="new-job-name" type="text" class="form-input w-full rounded-md border-slate-300" placeholder="새 직무명" />
+                <button id="add-job" class="inline-flex items-center gap-1 rounded-md bg-[#137fec] px-3 py-2 text-sm font-semibold text-white hover:bg-blue-600">
+                  추가
+                </button>
+              </div>
+              <ul id="jobs-list" class="mt-4 divide-y divide-slate-200"></ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- xlsx (SheetJS) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
+
+  <!-- ESM 모듈 스크립트 -->
+  <script type="module" src="./js/firebase-init.js"></script>
+  <script type="module" src="./js/util.js"></script>
+  <script type="module" src="./js/excel.js"></script>
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <link crossorigin href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Work+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <title>Interview Prep</title>
+  <link rel="icon" href="data:image/x-icon;base64," type="image/x-icon"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body class="bg-slate-50 font-sans" style='font-family: "Work Sans", "Noto Sans", sans-serif;'>
+  <div class="relative flex size-full min-h-screen flex-col">
+    <div class="flex-grow">
+      <header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 px-6 sm:px-10 py-4">
+        <div class="flex items-center gap-3 sm:gap-4 text-slate-800">
+          <svg class="h-8 w-8 text-[#137fec]" fill="currentColor" viewBox="0 0 48 48"><path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"/></svg>
+          <h2 class="text-lg sm:text-xl font-bold tracking-tight">Interview Prep</h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="./edit.html" class="inline-flex items-center gap-2 rounded-md bg-[#137fec] px-3 py-2 text-sm font-semibold text-white hover:bg-blue-600">
+            <span class="material-symbols-outlined text-base">edit</span>
+            편집
+          </a>
+        </div>
+      </header>
+
+      <main class="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+        <div class="space-y-8">
+          <div class="text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">면접 질문 후보지</h1>
+            <p class="mt-2 text-base sm:text-lg text-slate-600">직무와 분류를 선택하면 해당 질문이 표시됩니다.</p>
+          </div>
+
+          <div class="mx-auto max-w-xl space-y-4">
+            <div class="relative">
+              <label class="sr-only" for="job-search">직무 검색</label>
+              <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+              <input id="job-search" type="search" placeholder="직무 검색..."
+                class="form-input block w-full rounded-md border-slate-300 py-3 pl-10 pr-4 text-base placeholder:text-slate-400 focus:border-[#137fec] focus:outline-none focus:ring-[#137fec]"/>
+            </div>
+
+            <label class="sr-only" for="job-position">직무 선택</label>
+            <select id="job-position"
+              class="form-select block w-full rounded-md border-slate-300 py-3 pl-4 pr-10 text-base focus:border-[#137fec] focus:outline-none focus:ring-[#137fec]">
+              <option disabled selected>직무를 선택하세요...</option>
+            </select>
+          </div>
+
+          <section id="category-section" class="hidden">
+            <div class="text-center">
+              <h2 class="text-2xl font-bold text-slate-900">분류 선택</h2>
+              <p class="mt-1 text-slate-600">a ~ d 중 선택하세요.</p>
+            </div>
+
+            <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <button data-cat="a" class="cat-btn flex flex-col items-center justify-center rounded-md border border-slate-200 bg-white p-6 text-center text-slate-700 shadow-sm transition-all hover:border-[#137fec] hover:bg-blue-50">
+                <span class="material-symbols-outlined text-4xl">code</span>
+                <span class="mt-2 text-sm font-semibold">Technical (a)</span>
+              </button>
+              <button data-cat="b" class="cat-btn flex flex-col items-center justify-center rounded-md border border-slate-200 bg-white p-6 text-center text-slate-700 shadow-sm transition-all hover:border-[#137fec] hover:bg-blue-50">
+                <span class="material-symbols-outlined text-4xl">groups</span>
+                <span class="mt-2 text-sm font-semibold">Behavioral (b)</span>
+              </button>
+              <button data-cat="c" class="cat-btn flex flex-col items-center justify-center rounded-md border border-slate-200 bg-white p-6 text-center text-slate-700 shadow-sm transition-all hover:border-[#137fec] hover:bg-blue-50">
+                <span class="material-symbols-outlined text-4xl">design_services</span>
+                <span class="mt-2 text-sm font-semibold">Situational (c)</span>
+              </button>
+              <button data-cat="d" class="cat-btn flex flex-col items-center justify-center rounded-md border border-slate-200 bg-white p-6 text-center text-slate-700 shadow-sm transition-all hover:border-[#137fec] hover:bg-blue-50">
+                <span class="material-symbols-outlined text-4xl">psychology_alt</span>
+                <span class="mt-2 text-sm font-semibold">Brain Teasers (d)</span>
+              </button>
+            </div>
+          </section>
+
+          <section id="questions-section" class="hidden">
+            <h3 class="text-2xl font-bold text-slate-900">Interview Questions</h3>
+            <div id="questions-list" class="mt-6 space-y-6"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- xlsx (SheetJS) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
+
+  <!-- ESM 모듈 스크립트 -->
+  <script type="module" src="./js/firebase-init.js"></script>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
