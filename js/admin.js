@@ -186,8 +186,9 @@ import { escapeHtml } from "./util.js";
     try {
       await DB.addJob(name);
       newJobName.value = '';
-      await loadJobsToSelect();
-      await renderJobsList();
+      await loadJobsToSelect();  // 직무 목록 갱신
+      await renderJobsList();    // 직무 리스트 갱신
+      await renderQuestions();   // 질문 리스트 갱신
     } catch (e) {
       alert('직무 추가 실패(중복 여부 확인): ' + e.message);
     }
