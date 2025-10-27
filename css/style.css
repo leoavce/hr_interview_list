@@ -1,5 +1,20 @@
 /* public/css/style.css */
 :root { --primary:#137fec; }
+
 .card {
   box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+
+.card-container {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr; /* 두 개의 컬럼 */
+}
+
+.card-container .card {
+  padding: 2rem;
+}
+
+#job-management {
+  margin-bottom: 2rem;
 }
