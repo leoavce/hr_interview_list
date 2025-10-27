@@ -1,13 +1,13 @@
 // public/js/admin.js
 import { DB } from "./db.js";
 import { Excel } from "./excel.js";
-import { escapeHtml, getWriteTokenInteractive } from "./util.js";
+import { escapeHtml } from "./util.js";
 
 (function () {
   const jobSelect = document.getElementById('job-select');
   const catSelect = document.getElementById('cat-select');
   const refreshBtn = document.getElementById('refresh-list');
-  const saveBtn = document.getElementById('save-db'); // Firestore 전환 후 안내용
+  const saveBtn = document.getElementById('save-db');
 
   const questionInput = document.getElementById('question-input');
   const addBtn = document.getElementById('add-question');
@@ -24,13 +24,10 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
 
   const tableWrap = document.getElementById('questions-table');
   let editTargetId = null;
-  let writeToken = '';
 
   async function bootstrap() {
     await DB.openOrCreate();
     await DB.ensureAtLeastOneJob();
-    writeToken = getWriteTokenInteractive() || ''; // 선택적
-    await loadJobsToSelect();
     bindEvents();
     await renderJobsList();
     await renderQuestions();
@@ -48,7 +45,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     addJobBtn.addEventListener('click', addJob);
 
     importBtn.addEventListener('click', handleImportClick);
-    saveBtn.addEventListener('click', () => alert('Firestore는 자동 저장됩니다.')); // 안내
+    saveBtn.addEventListener('click', () => alert('Firestore는 자동 저장됩니다.'));
   }
 
   async function loadJobsToSelect() {
@@ -133,13 +130,12 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     const content = questionInput.value.trim();
     if (!content) return alert('질문을 입력하세요.');
 
-    await DB.addQuestion({ jobId, categoryCode: cat, content, active: true }, writeToken);
+    await DB.addQuestion({ jobId, categoryCode: cat, content, active: true });
     questionInput.value = '';
     await renderQuestions();
   }
 
   async function startEdit(id) {
-    // 목록 데이터에 이미 content가 있으나, 안전하게 최신값 조회
     const rows = await DB.listQuestions(jobSelect.value, catSelect.value, false);
     const row = rows.find(r => r.id === id);
     if (!row) return;
@@ -164,7 +160,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     const content = questionInput.value.trim();
     if (!content) return alert('질문을 입력하세요.');
 
-    await DB.updateQuestion(editTargetId, { content }, writeToken);
+    await DB.updateQuestion(editTargetId, { content });
     cancelEdit();
     await renderQuestions();
   }
@@ -174,7 +170,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     const row = rows.find(r => r.id === id);
     if (!row) return;
 
-    await DB.updateQuestion(id, { active: !row.active }, writeToken);
+    await DB.updateQuestion(id, { active: !row.active });
     await renderQuestions();
   }
 
@@ -188,7 +184,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     const name = newJobName.value.trim();
     if (!name) return;
     try {
-      await DB.addJob(name, writeToken);
+      await DB.addJob(name);
       newJobName.value = '';
       await loadJobsToSelect();
       await renderJobsList();
@@ -203,7 +199,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
     const name = prompt('새 이름을 입력하세요', current);
     if (!name) return;
     try {
-      await DB.renameJob(id, name.trim(), writeToken);
+      await DB.renameJob(id, name.trim());
       await loadJobsToSelect();
       await renderJobsList();
       await renderQuestions();
@@ -214,7 +210,7 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
 
   async function deleteJob(id) {
     if (!confirm('해당 직무를 삭제하면 관련 질문도 함께 삭제됩니다. 계속할까요?')) return;
-    await DB.deleteJobCascade(id, writeToken);
+    await DB.deleteJobCascade(id);
     await loadJobsToSelect();
     await renderJobsList();
     await renderQuestions();
@@ -226,9 +222,9 @@ import { escapeHtml, getWriteTokenInteractive } from "./util.js";
       return;
     }
     try {
-      const rows = await Excel.readExcel(excelFile.files[0]); // [{job,category,question,active}]
+      const rows = await Excel.readExcel(excelFile.files[0]);
       const updateDup = !!updateDuplicates.checked;
-      const result = await DB.importRows(rows, { updateDup, writeToken });
+      const result = await DB.importRows(rows, { updateDup });
       alert(`가져오기 완료:
 추가 ${result.inserted}건, 업데이트 ${result.updated}건, 비활성 ${result.deactivated}건`);
       await renderJobsList();
