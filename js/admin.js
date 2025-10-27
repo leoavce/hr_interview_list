@@ -29,6 +29,7 @@ import { escapeHtml } from "./util.js";
     await DB.openOrCreate();
     await DB.ensureAtLeastOneJob();
     bindEvents();
+    await loadJobsToSelect();
     await renderJobsList();
     await renderQuestions();
   }
